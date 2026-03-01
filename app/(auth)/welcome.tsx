@@ -1,11 +1,12 @@
-import { Stack, useRouter } from 'expo-router';
-import React from 'react';
+import { Link, Stack, useRouter } from 'expo-router';
 import { ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/ui/Button';
 import { Theme } from '../../constants/Theme';
 
 export default function WelcomeScreen() {
     const router = useRouter();
+    const insets = useSafeAreaInsets();
 
     return (
         <View style={styles.container}>
@@ -18,18 +19,19 @@ export default function WelcomeScreen() {
                 resizeMode="cover"
             >
                 <View style={styles.overlay}>
-                    <View style={styles.content}>
+                    <View style={[styles.content, { paddingBottom: Math.max(Theme.spacing.xxl, insets.bottom + Theme.spacing.lg) }]}>
                         <View style={styles.textContainer}>
                             <Text style={styles.title}>Welcome to EstateLife</Text>
                             <Text style={styles.subtitle}>Book amenities. Stay safe. Live better.</Text>
                         </View>
 
                         <View style={styles.actions}>
-                            <Button
-                                title="Get Started"
-                                onPress={() => router.push('/(auth)/login')}
-                                style={styles.button}
-                            />
+                            <Link href="/(auth)/login" asChild>
+                                <Button
+                                    title="Get Started"
+                                    style={styles.button}
+                                />
+                            </Link>
                         </View>
                     </View>
                 </View>
